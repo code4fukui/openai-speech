@@ -4,6 +4,10 @@ Speech to text by OpenAI.
 
 ## Usage
 
+```sh
+deno run -A https://code4fukui.github.io/openai-audiorecog/cli.js audio.mp3 > audio.txt
+```
+
 ```JavaScript
 import { fetchAudioRecog } from "https://code4fukui.github.io/openai-audiorecog/fetchAudioRecog.js"
 
@@ -30,8 +34,4 @@ export OPENAI_API_KEY=****
 
 ```sh
 deno run -A example.js
-```
-
-```sh
-deno run -A cli.js audio.mp3 > audio.txt
 ```
