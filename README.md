@@ -31,3 +31,7 @@ export OPENAI_API_KEY=****
 ```sh
 deno run -A example.js
 ```
+
+```sh
+deno run -A cli.js audio.mp3 > audio.txt
+```
