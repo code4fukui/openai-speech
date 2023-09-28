@@ -48,6 +48,9 @@ export const fetchAudioRecog = async (mp3bin) => {
   const res = await (await fetch(url, opt)).json();
   // console.log(res);
   const text = res.text;
+  if (!text) {
+    throw new Error(res);
+  }
   await log({ audiosize: mp3bin.length, text });
   return text;
 };
