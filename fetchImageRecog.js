@@ -1,6 +1,6 @@
 import { DateTime } from "https://js.sabae.cc/DateTime.js";
 import { getEnv } from "https://code4fukui.github.io/ai_chat/getEnv.js";
-import { FormDataEncoder } from "https://code4fukui.github.io/form-data-encoder/FormDataEncoder.js";
+import { Base64 } from "https://code4fukui.github.io/Base64/Base64.js";
 
 const KEY = await getEnv("OPENAI_API_KEY");
 
@@ -18,39 +18,55 @@ const log = async (opt) => { // opt: object
   }
 };
 
-// https://platform.openai.com/docs/api-reference/chat/create
+// https://platform.openai.com/docs/guides/vision
 
-export const fetchAudioRecog = async (mp3bin) => {
-  const fn = "audio.mp3";
-  const url = "https://api.openai.com/v1/audio/transcriptions";
+export const fetchImageRecog = async (imgbin, q = "この画像は何ですか") => {
+  const url = "https://api.openai.com/v1/chat/completions";
   const params = {
-    model: "whisper-1",
-    language: "ja",
+    model: "gpt-4o",
+    "messages": [
+      {
+        "role": "user",
+        "content": [
+          {
+            "type": "text",
+            "text": q,
+          },
+          {
+            "type": "image_url",
+            "image_url": {
+              "url": `data:image/jpeg;base64,${Base64.encode(imgbin)}`
+            }
+          }
+        ]
+      }
+    ],
+    "max_tokens": 300
   };
   const form = new FormData();
   for (const name in params) {
     form.set(name, params[name]);
   }
-  form.set("file", new Blob([mp3bin], { type: "audio/mpeg" }), fn);
 
-  const { headers, body } = await FormDataEncoder.encode(form);
+  //const { headers, body } = await FormDataEncoder.encode(form);
   const opt = {
     method: "POST",
     mode: "cors",
     cache: "no-cache",
     headers: {
       "Authorization": "Bearer " + KEY,
-      ... headers,
+      "Content-Type": "application/json",
     },
-    body,
+    body: JSON.stringify(params),
   };
   //console.log(opt);
+  //Deno.exit();
+
   const res = await (await fetch(url, opt)).json();
-  // console.log(res);
-  const text = res.text;
+  const text = res?.choices[0]?.message?.content;
   if (!text) {
     throw new Error(res);
   }
-  await log({ audiosize: mp3bin.length, text });
+  await log({ imagesize: imgbin.length, text });
   return text;
 };

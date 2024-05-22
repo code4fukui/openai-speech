@@ -1,19 +1,19 @@
-# openai-audiorecog
+# openai-imagerecog
 
 Speech to text by OpenAI.
 
 ## Usage
 
 ```sh
-deno run -A https://code4fukui.github.io/openai-audiorecog/cli.js audio.mp3 > audio.txt
+deno run -A https://code4fukui.github.io/openai-imagerecog/cli.js image.jpg > image.txt
 ```
 
 ```JavaScript
-import { fetchAudioRecog } from "https://code4fukui.github.io/openai-audiorecog/fetchAudioRecog.js"
+import { fetchImageRecog } from "https://code4fukui.github.io/openai-imagerecog/fetchImageRecog.js"
 
-const fn = "audio.mp3";
-const mp3bin = new Uint8Array(await Deno.readFile(fn));
-const res = await fetchAudioRecog(mp3bin);
+const fn = "image.jpg";
+const imgbin = new Uint8Array(await Deno.readFile(fn));
+const res = await fetchImageRecog(imgbin);
 console.log(res);
 ```
 

@@ -1,6 +1,6 @@
-import { fetchAudioRecog } from "./fetchAudioRecog.js"
+import { fetchImageRecog } from "./fetchImageRecog.js"
 
-const fn = "audio.mp3";
-const mp3bin = new Uint8Array(await Deno.readFile(fn));
-const res = await fetchAudioRecog(mp3bin);
+const fn = "image.jpg";
+const imgbin = new Uint8Array(await Deno.readFile(fn));
+const res = await fetchImageRecog(imgbin);
 console.log(res);
