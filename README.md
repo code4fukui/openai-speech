@@ -1,6 +1,6 @@
 # openai-imagerecog
 
-Speech to text by OpenAI.
+Image recognization by OpenAI.
 
 ## Usage
 
