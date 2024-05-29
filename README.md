@@ -9,7 +9,7 @@ deno run -A https://code4fukui.github.io/openai-speech/cli.js こんにちは > 
 ```
 
 ```JavaScript
-import { fetchSpeech } from "https://code4fukui.github.io/openai-imagerecog/fetchSpeech.js"
+import { fetchSpeech } from "https://code4fukui.github.io/openai-speech/fetchSpeech.js"
 
 const txt = "隣の客はよく柿食う客だ";
 const voice = "echo"; // "alloy", "echo", "fable", "onyx", "nova", "shimmer"
