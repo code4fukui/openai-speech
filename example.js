@@ -1,6 +1,7 @@
-import { fetchImageRecog } from "./fetchImageRecog.js"
+import { fetchSpeech } from "./fetchSpeech.js"
 
-const fn = "image.jpg";
-const imgbin = new Uint8Array(await Deno.readFile(fn));
-const res = await fetchImageRecog(imgbin);
+const txt = "隣の客はよく柿食う客だ";
+const voice = "echo"; // "alloy", "echo", "fable", "onyx", "nova", "shimmer"
+const res = await fetchSpeech(txt, { voice });
 console.log(res);
+await Deno.writeFile("out.mp3", res);
