@@ -37,3 +37,10 @@ export OPENAI_API_KEY=****
 ```sh
 deno run -A example.js
 ```
+
+## Web App Demo
+
+```sh
+deno run -A server.js 8080
+```
+open http://localhost:8080/

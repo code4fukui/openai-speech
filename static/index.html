@@ -1,0 +1,89 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><link rel="icon" href="data:">
+</head><body>
+<h1>text2speech by OpenAI API</h1>
+<textarea type=text id=intxt style="width:90%;height:8em;">これはテストです。</textarea><br>
+<select id=selvoice></select>
+<select id=selspeed>
+  <option>0.4</option>
+  <option>0.6</option>
+  <option>0.8</option>
+  <option selected>1.0</option>
+  <option>1.25</option>
+  <option>1.5</option>
+  <option>1.75</option>
+  <option>2.0</option>
+  <option>2.5</option>
+  <option>3.0</option>
+  <option>3.5</option>
+  <option>4.0</option>
+</select>
+<button id=btn>play</button>
+<button id=btndl>download</button>
+<span id=spantime></span>
+
+<script type="module">
+import { fetchCBOR } from "https://js.sabae.cc/fetchCBOR.js";
+import { encodeData } from "https://code4fukui.github.io//dataencoder/encodeData.js";
+import { downloadFile } from "https://js.sabae.cc/downloadFile.js";
+
+const endpoint = "./api/";
+
+const voices = [
+  "アロイ(女性) alloy",
+  "エコー(男性) echo",
+  "ファブル(男性) fable",
+  "オニキス(声低めな男性) onyx",
+  "ノヴァ(声高めな女性) nova",
+  "シマー(女性) shimmer"
+];
+voices.forEach(voice => {
+  const opt = document.createElement("option");
+  const v = voice.split(" ");
+  opt.textContent = v[0];
+  opt.value = v[1];
+  selvoice.appendChild(opt);
+});
+
+let audio = null;
+let bks = null;
+let bkvoice = null;
+let bkspeed = null;
+
+btn.onclick = async () => {
+  const s = intxt.value;
+  const voice = selvoice.value;
+  const speed = selspeed.value;
+  if (audio && s == bks && voice == bkvoice && speed == bkspeed) {
+    audio.pause();
+    audio.play();
+    return;
+  }
+  btn.disabled = true;
+  bks = s;
+  bkvoice = voice;
+  btn.textContent = "generating..";
+  const mp3 = await fetchCBOR(endpoint + "speech", { txt: s, voice, speed });
+  audio = new Audio();
+  const src = encodeData("audio/mp3", mp3);
+  audio.src = src;
+  btn.disabled = false;
+  btn.textContent = "play";
+  audio.play();
+  btndl.onclick = () => downloadFile("speech.mp3", mp3);
+  audio.onloadedmetadata = () => spantime.textContent = audio.duration.toFixed(1) + "sec";
+};
+</script>
+
+<hr>
+<a href="https://github.com/code4fukui/openai-speech">src on GitHub</a><br>
+
+<style>
+body {
+  font-family: sans-serif;
+}
+a {
+  color: gray !important;
+}
+</style>
+
+</body></html>
