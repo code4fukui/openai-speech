@@ -61,6 +61,7 @@ btn.onclick = async () => {
   btn.disabled = true;
   bks = s;
   bkvoice = voice;
+  bkspeed = speed;
   btn.textContent = "generating..";
   const mp3 = await fetchCBOR(endpoint + "speech", { txt: s, voice, speed });
   audio = new Audio();
